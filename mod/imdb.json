@@ -75,6 +75,29 @@
 					"name":"Description",
 					"type":"text"
 				}
+			},
+			{
+				"xpath":"//*[@itemprop='director']//*[@itemprop='name']",
+				"value":{
+					"name":"Director",
+					"type":"text"
+				}
+			},
+			{
+				"xpath":"//*[@itemprop='creator'][@itemtype='http://schema.org/Person']//*[@itemprop='name']",
+				"repeat":true,
+				"value":{
+					"name":"Writer",
+					"type":"text"
+				}
+			},
+			{
+				"xpath":"//*[@itemprop='actors']//*[@itemprop='name']",
+				"repeat":true,
+				"value":{
+					"name":"Actor",
+					"type":"text"
+				}
 			}
 		]
 	}
