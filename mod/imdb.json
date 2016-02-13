@@ -44,6 +44,37 @@
 					"type":"attr",
 					"attr":"datetime"
 				}
+			},
+			{
+				"xpath":"//span[@itemprop='genre']",
+				"repeat":true,
+				"value":{
+					"name":"Genre",
+					"type":"text"
+				}
+			},
+			{
+				"xpath":"//*[@itemprop='datePublished']",
+				"value":{
+					"name":"Release",
+					"type":"attr",
+					"attr":"content"
+				}
+			},
+			{
+				"xpath":"//*[@itemprop='image']",
+				"value":{
+					"name":"Image",
+					"type":"attr",
+					"attr":"src"
+				}
+			},
+			{
+				"xpath":"//*[@itemprop='description']",
+				"value":{
+					"name":"Description",
+					"type":"text"
+				}
 			}
 		]
 	}
