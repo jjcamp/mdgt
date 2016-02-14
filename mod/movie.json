@@ -1,5 +1,9 @@
 {
-	"uri":"http://www.imdb.com/title/tt1431045/",
+	"search": {
+		"uriRoot":"https://www.imdb.com",
+		"searchPath":"/find/?q=*&s=tt",
+		"firstResultXpath":"//*[@class='findResult odd']/td/a"
+	},
 	"root":{
 		"xpath":"//*[@itemscope]",
 		"items":[
