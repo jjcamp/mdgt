@@ -28,9 +28,13 @@ def scrape(mod, query):
 		tree = html.fromstring(page.content)
 
 	# Start with the MD object's root and recurse through the tree
-	parseNode(tree, mod['root'])
+	data = dict()
+	parseNode(tree, mod['root'], data)
+	return data
+	#print(json.dumps(data))
 
-def parseNode(parentTree, modNode):
+def parseNode(parentTree, modNode, dataDict):
+	dataList = []
 	tree = parentTree.xpath(modNode['xpath'])
 	# If repeat is not present or set to true, then just use the first result
 	if 'repeat' not in modNode or modNode['repeat'] == False:
@@ -39,16 +43,34 @@ def parseNode(parentTree, modNode):
 		if 'value' in modNode:
 			val = modNode['value']
 			if val['type'] == 'text':
-				print(val['name'] + ": " + t.text.strip())
+				dataList.append(t.text.strip())
 			elif val['type'] == 'attr':
-				print(val['name'] + ": " + t.get(val['attr']))
+				dataList.append(t.get(val['attr']))
+			if len(dataList) == 1:
+				dataDict[val['name']] = dataList[0]
+			elif len(dataList) > 1:
+				dataDict[val['name']] = dataList
 		if 'items' in modNode:
 			for i in modNode['items']:
-				parseNode(t, i)
+				parseNode(t, i, dataDict)
+
+def consolePrint(dataDict):
+	for k in dataDict.keys():
+		v = dataDict[k]
+		if type(v) is list:
+			buf = ''
+			outStr = k + ': '
+			for i in range(len(k) + 2):
+				buf = buf + ' '
+			for e in v:
+				print(outStr + e)
+				outStr = buf
+		else:
+			print(k + ': ' + v)
 
 if __name__ == "__main__":
 	import sys
 	if len(sys.argv) < 3 or sys.argv[1] == '--help':
 		print("Usage: " + sys.argv[0] + " [module] [query]")
 	else:
-		scrape(loadMod(sys.argv[1]), sys.argv[2])
+		consolePrint(scrape(loadMod(sys.argv[1]), sys.argv[2]))
