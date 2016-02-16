@@ -70,6 +70,13 @@ def consolePrint(dataDict):
 		else:
 			print(k + ': ' + v)
 
+def listMods():
+	p = Path('mod')
+	print("Available modules:")
+	mods = list(p.glob('*.json'))
+	for m in mods:
+		print("- " + m.stem)
+
 if __name__ == "__main__":
 	import argparse
 	parser = argparse.ArgumentParser()
@@ -84,10 +91,14 @@ if __name__ == "__main__":
 	                  help = "Output console-formatted text (default).")
 	outputGroup.add_argument('-j', '--json', action = 'store_true',
 	                  help = "Output json.")
-	# TODO: --modules option to display a list of modules
+	# Other options
+	parser.add_argument('-m', '--modules', action = 'store_true',
+	               help = "List available modules and exit.")
 	args = parser.parse_args()
 
-	if args.json:
+	if args.modules:
+		listMods()
+	elif args.json:
 		jsonPrint(scrape(loadMod(args.module), args.query))
 	else:
 		consolePrint(scrape(loadMod(args.module), args.query))
