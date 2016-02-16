@@ -2,7 +2,6 @@ from lxml import html
 from pathlib import Path
 import requests
 import json
-import sys
 
 def loadMod(name):
 	p = Path("./mod/" + name + ".json")
@@ -72,8 +71,23 @@ def consolePrint(dataDict):
 			print(k + ': ' + v)
 
 if __name__ == "__main__":
-	import sys
-	if len(sys.argv) < 3 or sys.argv[1] == '--help':
-		print("Usage: " + sys.argv[0] + " [module] [query]")
+	import argparse
+	parser = argparse.ArgumentParser()
+	# Required arguments
+	parser.add_argument('module',
+	               help = "Which module to call (or, the type of object to query).")
+	parser.add_argument('query',
+	               help = "The query for the module to consume.")
+	# These arguments affect the output and are exclusive
+	outputGroup = parser.add_mutually_exclusive_group()
+	outputGroup.add_argument('-c', '--console', action = 'store_true',
+	                  help = "Output console-formatted text (default).")
+	outputGroup.add_argument('-j', '--json', action = 'store_true',
+	                  help = "Output json.")
+	# TODO: --modules option to display a list of modules
+	args = parser.parse_args()
+
+	if args.json:
+		jsonPrint(scrape(loadMod(args.module), args.query))
 	else:
-		consolePrint(scrape(loadMod(sys.argv[1]), sys.argv[2]))
+		consolePrint(scrape(loadMod(args.module), args.query))
