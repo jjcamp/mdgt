@@ -54,6 +54,9 @@ def parseNode(parentTree, modNode, dataDict):
 			for i in modNode['items']:
 				parseNode(t, i, dataDict)
 
+def jsonPrint(dataDict):
+	print(json.dumps(dataDict))
+
 def consolePrint(dataDict):
 	for k in dataDict.keys():
 		v = dataDict[k]
