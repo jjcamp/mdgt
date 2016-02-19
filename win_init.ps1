@@ -6,6 +6,7 @@ $deps = @{
 	'requests' = '2.9.1'
 	'wheel' = '0.29.0'
 	'pip' = '8.0.2'
+	'pep8' = '1.7.0'
 }
 
 Write-Host 'Checking for virtual environment...'

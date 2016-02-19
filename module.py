@@ -5,7 +5,7 @@ class Module:
 
         self.name = name
         p = Path("./mod/" + name + ".json")
-        if p.exists() == False:
+        if not p.exists():
             raise RuntimeError("Module " + name + " does not exist.")
         with p.open() as f:
             self.modJson = json.loads(f.read())
@@ -16,10 +16,12 @@ class Module:
 
         # Get search information
         search = self.modJson['search']
-        uriSearch = search['uriRoot'] + search['searchPath'].replace('*', query)
+        uriSearch = search['uriRoot'] + \
+            search['searchPath'].replace('*', query)
         page = requests.get(uriSearch)
         tree = html.fromstring(page.content)
-        # Some sources may have a feeling lucky option, so this part is optional
+        # Some sources may have a feeling lucky option, so this part is
+        # optional
         if 'firstResultXpath' in search:
             resNode = tree.xpath(search['firstResultXpath'])[0]
             resUri = resNode.get('href')
@@ -39,8 +41,9 @@ class Module:
 
         dataList = []
         tree = parentTree.xpath(modNode['xpath'])
-        # If repeat is not present or set to true, then just use the first result
-        if 'repeat' not in modNode or modNode['repeat'] == False:
+        # If repeat is not present or set to true, then just use the first
+        # result
+        if 'repeat' not in modNode or not modNode['repeat']:
             tree = tree[0:1]
         for t in tree:
             if 'value' in modNode:

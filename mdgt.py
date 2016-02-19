@@ -2,8 +2,10 @@ from pathlib import Path
 import json
 from module import Module
 
+
 def jsonPrint(dataDict):
     print(json.dumps(dataDict))
+
 
 def consolePrint(dataDict):
     for k in dataDict.keys():
@@ -19,6 +21,7 @@ def consolePrint(dataDict):
         else:
             print(k + ': ' + v)
 
+
 def listMods():
     p = Path('mod')
     print("Available modules:")
@@ -30,19 +33,23 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser()
     # Required arguments
-    parser.add_argument('module', nargs='?',
-                   help="Which module to call (or, the type of object to query).")
-    parser.add_argument('query', nargs='?',
-                   help="The query for the module to consume.")
+    parser.add_argument(
+        'module',
+        nargs='?',
+        help="Which module to call (or, the type of object to query).")
+    parser.add_argument(
+        'query',
+        nargs='?',
+        help="The query for the module to consume.")
     # Other options
     parser.add_argument('-m', '--modules', action='store_true',
-                   help="List available modules and exit.")
+                        help="List available modules and exit.")
     # These arguments affect the output and are exclusive
     outputGroup = parser.add_mutually_exclusive_group()
     outputGroup.add_argument('-c', '--console', action='store_true',
-                      help="Output console-formatted text (default).")
+                             help="Output console-formatted text (default).")
     outputGroup.add_argument('-j', '--json', action='store_true',
-                      help="Output json.")
+                             help="Output json.")
     args = parser.parse_args()
 
     if args.modules:
