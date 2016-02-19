@@ -4,7 +4,7 @@ class Element:
         import json
 
         self.name = name
-        p = Path("./mod/" + name + ".json")
+        p = Path("./elem/" + name + ".json")
         if not p.exists():
             raise RuntimeError("Element " + name + " does not exist.")
         with p.open() as f:

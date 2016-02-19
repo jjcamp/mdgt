@@ -23,7 +23,7 @@ def consolePrint(dataDict):
 
 
 def listMods():
-    p = Path('mod')
+    p = Path('elem')
     print("Available elements:")
     mods = list(p.glob('*.json'))
     for m in mods:
