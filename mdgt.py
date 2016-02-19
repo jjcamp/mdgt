@@ -1,6 +1,6 @@
 from pathlib import Path
 import json
-from module import module
+from module import Module
 
 def jsonPrint(dataDict):
     print(json.dumps(dataDict))
@@ -30,19 +30,19 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser()
     # Required arguments
-    parser.add_argument('module', nargs = '?',
-                   help = "Which module to call (or, the type of object to query).")
-    parser.add_argument('query', nargs = '?',
-                   help = "The query for the module to consume.")
+    parser.add_argument('module', nargs='?',
+                   help="Which module to call (or, the type of object to query).")
+    parser.add_argument('query', nargs='?',
+                   help="The query for the module to consume.")
     # Other options
-    parser.add_argument('-m', '--modules', action = 'store_true',
-                   help = "List available modules and exit.")
+    parser.add_argument('-m', '--modules', action='store_true',
+                   help="List available modules and exit.")
     # These arguments affect the output and are exclusive
     outputGroup = parser.add_mutually_exclusive_group()
-    outputGroup.add_argument('-c', '--console', action = 'store_true',
-                      help = "Output console-formatted text (default).")
-    outputGroup.add_argument('-j', '--json', action = 'store_true',
-                      help = "Output json.")
+    outputGroup.add_argument('-c', '--console', action='store_true',
+                      help="Output console-formatted text (default).")
+    outputGroup.add_argument('-j', '--json', action='store_true',
+                      help="Output json.")
     args = parser.parse_args()
 
     if args.modules:
@@ -50,8 +50,8 @@ if __name__ == "__main__":
     elif (not args.module) and (not args.query):
         print("Module and query required. See --help")
     elif args.json:
-        mod = module(args.module)
+        mod = Module(args.module)
         jsonPrint(mod.scrape(args.query))
     else:
-        mod = module(args.module)
+        mod = Module(args.module)
         consolePrint(mod.scrape(args.query))

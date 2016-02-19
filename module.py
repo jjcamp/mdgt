@@ -1,4 +1,4 @@
-class module:
+class Module:
     def __init__(self, name):
         from pathlib import Path
         import json
@@ -31,10 +31,10 @@ class module:
 
         # Start with the MD object's root and recurse through the tree
         data = dict()
-        module.parseNode(tree, self.modJson['root'], data)
+        Module.parse_node(tree, self.modJson['root'], data)
         return data
 
-    def parseNode(parentTree, modNode, dataDict):
+    def parse_node(parentTree, modNode, dataDict):
         from lxml import html
 
         dataList = []
@@ -55,4 +55,4 @@ class module:
                     dataDict[val['name']] = dataList
             if 'items' in modNode:
                 for i in modNode['items']:
-                    module.parseNode(t, i, dataDict)
+                    Module.parse_node(t, i, dataDict)
