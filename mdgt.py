@@ -1,6 +1,6 @@
 from pathlib import Path
 import json
-from module import Module
+from element import Element
 
 
 def jsonPrint(dataDict):
@@ -24,7 +24,7 @@ def consolePrint(dataDict):
 
 def listMods():
     p = Path('mod')
-    print("Available modules:")
+    print("Available elements:")
     mods = list(p.glob('*.json'))
     for m in mods:
         print("- " + m.stem)
@@ -34,16 +34,16 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     # Required arguments
     parser.add_argument(
-        'module',
+        'element',
         nargs='?',
-        help="Which module to call (or, the type of object to query).")
+        help="Which element to call (or, the type of object to query).")
     parser.add_argument(
         'query',
         nargs='?',
-        help="The query for the module to consume.")
+        help="The query for the element to consume.")
     # Other options
-    parser.add_argument('-m', '--modules', action='store_true',
-                        help="List available modules and exit.")
+    parser.add_argument('-e', '--elements', action='store_true',
+                        help="List available elements and exit.")
     # These arguments affect the output and are exclusive
     outputGroup = parser.add_mutually_exclusive_group()
     outputGroup.add_argument('-c', '--console', action='store_true',
@@ -52,13 +52,13 @@ if __name__ == "__main__":
                              help="Output json.")
     args = parser.parse_args()
 
-    if args.modules:
+    if args.elements:
         listMods()
-    elif (not args.module) and (not args.query):
-        print("Module and query required. See --help")
+    elif (not args.element) and (not args.query):
+        print("Element and query required. See --help")
     elif args.json:
-        mod = Module(args.module)
+        mod = Element(args.element)
         jsonPrint(mod.scrape(args.query))
     else:
-        mod = Module(args.module)
+        mod = Element(args.element)
         consolePrint(mod.scrape(args.query))

@@ -1,4 +1,4 @@
-class Module:
+class Element:
     def __init__(self, name):
         from pathlib import Path
         import json
@@ -6,7 +6,7 @@ class Module:
         self.name = name
         p = Path("./mod/" + name + ".json")
         if not p.exists():
-            raise RuntimeError("Module " + name + " does not exist.")
+            raise RuntimeError("Element " + name + " does not exist.")
         with p.open() as f:
             self.modJson = json.loads(f.read())
 
@@ -33,7 +33,7 @@ class Module:
 
         # Start with the MD object's root and recurse through the tree
         data = dict()
-        Module.parse_node(tree, self.modJson['root'], data)
+        Element.parse_node(tree, self.modJson['root'], data)
         return data
 
     def parse_node(parentTree, modNode, dataDict):
@@ -58,4 +58,4 @@ class Module:
                     dataDict[val['name']] = dataList
             if 'items' in modNode:
                 for i in modNode['items']:
-                    Module.parse_node(t, i, dataDict)
+                    Element.parse_node(t, i, dataDict)
