@@ -1,6 +1,7 @@
 from pathlib import Path
 import json
 from provider import Provider
+import webserve
 
 
 def jsonPrint(dataDict):
@@ -50,10 +51,14 @@ if __name__ == "__main__":
                              help="Output console-formatted text (default).")
     outputGroup.add_argument('-j', '--json', action='store_true',
                              help="Output json.")
+    outputGroup.add_argument('-w', '--webserver', action='store_true',
+                             help="Start as a web server daemon on port 8181.")
     args = parser.parse_args()
 
     if args.providers:
         listMods()
+    elif args.webserver:
+        webserve.serve()
     elif (not args.provider) and (not args.query):
         print("Provider and query required. See --help")
     elif args.json:

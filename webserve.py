@@ -49,9 +49,9 @@ class mdgtHandler(BaseHTTPRequestHandler):
 def serve(port=8181):
     address = ('', port)
     httpd = HTTPServer(address, mdgtHandler)
-    httpd.serve_forever()
-    
- # This is just for testing
-if __name__ == "__main__":
-    print("Serving at http://localhost:8181")
-    serve()
+    try:
+        print("Starting web server at http://localhost:", port)
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        print("Stopping web server.")
+        httpd.socket.close()
