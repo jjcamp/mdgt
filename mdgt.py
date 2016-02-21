@@ -1,6 +1,6 @@
 from pathlib import Path
 import json
-from element import Element
+from provider import Provider
 
 
 def jsonPrint(dataDict):
@@ -23,8 +23,8 @@ def consolePrint(dataDict):
 
 
 def listMods():
-    p = Path('elem')
-    print("Available elements:")
+    p = Path('providers')
+    print("Available providers:")
     mods = list(p.glob('*.json'))
     for m in mods:
         print("- " + m.stem)
@@ -34,16 +34,16 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     # Required arguments
     parser.add_argument(
-        'element',
+        'provider',
         nargs='?',
-        help="Which element to call (or, the type of object to query).")
+        help="Which provider to use (or, the type of object to query).")
     parser.add_argument(
         'query',
         nargs='?',
-        help="The query for the element to consume.")
+        help="The query for the provider to consume.")
     # Other options
-    parser.add_argument('-e', '--elements', action='store_true',
-                        help="List available elements and exit.")
+    parser.add_argument('-p', '--providers', action='store_true',
+                        help="List available providers and exit.")
     # These arguments affect the output and are exclusive
     outputGroup = parser.add_mutually_exclusive_group()
     outputGroup.add_argument('-c', '--console', action='store_true',
@@ -52,13 +52,13 @@ if __name__ == "__main__":
                              help="Output json.")
     args = parser.parse_args()
 
-    if args.elements:
+    if args.providers:
         listMods()
-    elif (not args.element) and (not args.query):
-        print("Element and query required. See --help")
+    elif (not args.provider) and (not args.query):
+        print("Provider and query required. See --help")
     elif args.json:
-        mod = Element(args.element)
+        mod = Provider(args.provider)
         jsonPrint(mod.scrape(args.query))
     else:
-        mod = Element(args.element)
+        mod = Provider(args.provider)
         consolePrint(mod.scrape(args.query))

@@ -1,12 +1,12 @@
-class Element:
+class Provider:
     def __init__(self, name):
         from pathlib import Path
         import json
 
         self.name = name
-        p = Path("./elem/" + name + ".json")
+        p = Path("./providers/" + name + ".json")
         if not p.exists():
-            raise RuntimeError("Element " + name + " does not exist.")
+            raise RuntimeError("Provider " + name + " does not exist.")
         with p.open() as f:
             self.modJson = json.loads(f.read())
 
@@ -33,7 +33,7 @@ class Element:
 
         # Start with the MD object's root and recurse through the tree
         data = dict()
-        Element.parse_node(tree, self.modJson['root'], data)
+        Provider.parse_node(tree, self.modJson['root'], data)
         return data
 
     def parse_node(parentTree, modNode, dataDict):
@@ -58,4 +58,4 @@ class Element:
                     dataDict[val['name']] = dataList
             if 'items' in modNode:
                 for i in modNode['items']:
-                    Element.parse_node(t, i, dataDict)
+                    Provider.parse_node(t, i, dataDict)
