@@ -1,3 +1,10 @@
+'''
+mdgt
+A Microdata-Parsing Microservice
+
+Command-line usage:
+    python mdgt.py --help
+'''
 from pathlib import Path
 import json
 from provider import Provider
@@ -5,10 +12,12 @@ import webserve
 
 
 def jsonPrint(dataDict):
+    '''Outputs parsed information as json to stdout.'''
     print(json.dumps(dataDict))
 
 
 def consolePrint(dataDict):
+    '''Outputs parsed information in a console-friendly format to stdout.'''
     for k in dataDict.keys():
         v = dataDict[k]
         if type(v) is list:
@@ -24,6 +33,7 @@ def consolePrint(dataDict):
 
 
 def listProvs():
+    '''Outputs a list of all available providers to stdout.'''
     p = Path('providers')
     print("Available providers:")
     provs = list(p.glob('*.json'))
