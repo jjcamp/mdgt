@@ -23,12 +23,12 @@ def consolePrint(dataDict):
             print(k + ': ' + v)
 
 
-def listMods():
+def listProvs():
     p = Path('providers')
     print("Available providers:")
-    mods = list(p.glob('*.json'))
-    for m in mods:
-        print("- " + m.stem)
+    provs = list(p.glob('*.json'))
+    for prov in provs:
+        print("- " + prov.stem)
 
 if __name__ == "__main__":
     import argparse
@@ -56,14 +56,14 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.providers:
-        listMods()
+        listProvs()
     elif args.webserver:
         webserve.serve()
     elif (not args.provider) and (not args.query):
         print("Provider and query required. See --help")
     elif args.json:
-        mod = Provider(args.provider)
-        jsonPrint(mod.scrape(args.query))
+        prov = Provider(args.provider)
+        jsonPrint(prov.scrape(args.query))
     else:
-        mod = Provider(args.provider)
-        consolePrint(mod.scrape(args.query))
+        prov = Provider(args.provider)
+        consolePrint(prov.scrape(args.query))
