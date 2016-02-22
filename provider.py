@@ -1,5 +1,18 @@
 class Provider:
+    '''Providers parse microdata using XPath rules
+
+    The provider class loads a provider file and then uses the rules contained
+    within to retrieve a search query from the internet and then parse the
+    microdata.
+    '''
     def __init__(self, name):
+        '''Loads a provider.
+        The method will search to providers directory for a file [name].json to
+        load.
+
+        Args:
+            name (str): The name of the provider to load.
+        '''
         from pathlib import Path
         import json
 
@@ -11,6 +24,15 @@ class Provider:
             self.modJson = json.loads(f.read())
 
     def scrape(self, query):
+        '''Uses the loaded provider to scrape and parse microdata.
+
+        Args:
+            query (str): The query string the provider will use to search for
+            relevant microdata.
+
+        Returns:
+            A dict object containing the scraped information.
+        '''
         from lxml import html
         import requests
 
@@ -37,6 +59,14 @@ class Provider:
         return data
 
     def parse_node(parentTree, modNode, dataDict):
+        '''Recursively parses and lxml node.
+
+        Args:
+            parentTree (etree): The lxml etree object to be parsed.
+            modNode (dict): The node from the json file containing the current
+                node's parsing rules.
+            dataDict (dict): The dict containing all parsed information.
+        '''
         from lxml import html
 
         dataList = []
