@@ -21,15 +21,15 @@ def consolePrint(dataDict):
     for k in dataDict.keys():
         v = dataDict[k]
         if type(v) is list:
-            buf = ''
-            outStr = k + ': '
+            buf = ""
+            outStr = "{}: ".format(k)
             for i in range(len(k) + 2):
-                buf = buf + ' '
+                buf = "{} ".format(buf)
             for e in v:
-                print(outStr + e)
+                print("{}{}".format(outStr, e))
                 outStr = buf
         else:
-            print(k + ': ' + v)
+            print("{}: {}".format(k, v))
 
 
 def listProvs():
@@ -38,7 +38,7 @@ def listProvs():
     print("Available providers:")
     provs = list(p.glob('*.json'))
     for prov in provs:
-        print("- " + prov.stem)
+        print("- {}".format(prov.stem))
 
 if __name__ == "__main__":
     import argparse
