@@ -61,14 +61,16 @@ if __name__ == "__main__":
                              help="Output console-formatted text (default).")
     outputGroup.add_argument('-j', '--json', action='store_true',
                              help="Output json.")
-    outputGroup.add_argument('-w', '--webserver', action='store_true',
-                             help="Start as a web server daemon on port 8181.")
+    outputGroup.add_argument('-w', '--webserver', nargs='?', const=8181,
+                             help="Start as a web server daemon on the \
+                             specified port (default 8181).")
     args = parser.parse_args()
 
     if args.providers:
         listProvs()
     elif args.webserver:
-        webserve.serve()
+        # TODO: Add error checking once the config file is implemented.
+        webserve.serve(int(args.webserver))
     elif (not args.provider) and (not args.query):
         print("Provider and query required. See --help")
     elif args.json:

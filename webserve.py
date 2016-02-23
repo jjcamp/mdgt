@@ -66,7 +66,7 @@ def serve(port=8181):
     address = ('', port)
     httpd = HTTPServer(address, mdgtHandler)
     try:
-        print("Starting web server at http://localhost:", port)
+        print("Starting web server at http://localhost:{0!s}".format(port))
         httpd.serve_forever()
     except KeyboardInterrupt:
         print("Stopping web server.")
