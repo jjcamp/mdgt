@@ -11,6 +11,11 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   readme
+   modules
+   contributing
+   license
+
 
 
 Indices and tables
