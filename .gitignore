@@ -3,3 +3,4 @@
 /venv
 /docs/build
 /mdgt.egg-info
+/dist
