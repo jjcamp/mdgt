@@ -7,7 +7,7 @@ setup(
     author="John Camp and Contributors",
     description="Microdata-Parsing Microservice",
     url="https://github.com/jjcamp/mdgt",
-    keywords="microdata"
+    keywords="microdata",
     long_description=open('README.md').read(),
     license="MIT",
     install_requires=[
