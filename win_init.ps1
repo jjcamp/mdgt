@@ -5,7 +5,7 @@ $deps = @{
 	'lxml' = '3.5.0'
 	'requests' = '2.9.1'
 	'wheel' = '0.29.0'
-	'pip' = '8.0.2'
+	'pip' = '8.0.3'
 	'pep8' = '1.7.0'
     'setuptools' = '20.2.2'
 }
