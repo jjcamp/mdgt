@@ -7,6 +7,7 @@ $deps = @{
 	'wheel' = '0.29.0'
 	'pip' = '8.0.2'
 	'pep8' = '1.7.0'
+    'setuptools' = '20.2.2'
 }
 
 Write-Host 'Checking for virtual environment...'
@@ -25,6 +26,7 @@ Write-Host 'Checking for dependencies...'
 $instDepsOut = pip list --disable-pip-version-check
 $instDeps = @{}
 $lxmlNeedsUpdate = $false
+$setuptoolsNeedsUpdate = $false
 $instDepsOut | % {
 	$_ -match '(?<pkg>.*?)\s*?\((?<ver>.*?)\)' | Out-Null
 	if (($matches.containsKey('pkg')) -and ($matches.containsKey('ver'))) {
@@ -37,6 +39,9 @@ ForEach ($d in $deps.KEYS.GetEnumerator()) {
 		if ($d -eq 'lxml') {
 			$lxmlNeedsUpdate = $true
 		}
+        elseif ($d -eq 'setuptools') {
+            $setuptoolsNeedsUpdate = $true
+        }
 		else {
 			Write-Host "Installing dependency $($d) ($($deps[$d]))."
 			&python -m pip install $d==$($deps[$d]) --disable-pip-version-check
@@ -51,5 +56,9 @@ if ($lxmlNeedsUpdate) {
 	Write-Host 'Installing lxml...'
 	$whl = 'lxml-3.5.0-cp35-none-win_amd64.whl'
 	&python -m pip install $($whl) --disable-pip-version-check
+}
+if ($setuptoolsNeedsUpdate) {
+    Write-Host 'Installing setuptools...'
+    (Invoke-WebRequest https://bootstrap.pypa.io/ez_setup.py).Content | python -
 }
 Write-Host 'Initialization complete, use "deactivate" to leave the virtual environment.'
