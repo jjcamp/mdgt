@@ -7,8 +7,8 @@ Command-line usage:
 '''
 from pathlib import Path
 import json
-from provider import Provider
-import webserve
+from .provider import Provider
+from .webserve import serve as webserve
 
 
 def jsonPrint(dataDict):
@@ -40,6 +40,8 @@ def listProvs():
     for prov in provs:
         print("- {}".format(prov.stem))
 
+# TODO: Turn this into a function, then call from __main__.py
+'''
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser()
@@ -79,3 +81,4 @@ if __name__ == "__main__":
     else:
         prov = Provider(args.provider)
         consolePrint(prov.scrape(args.query))
+'''

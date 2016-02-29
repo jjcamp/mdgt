@@ -3,7 +3,7 @@ mdgt web server module.
 '''
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
-from provider import Provider
+from .provider import Provider
 import json
 # Future ssl use, leaving it here as a reminder
 # import ssl

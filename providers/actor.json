@@ -1,0 +1,35 @@
+{
+    "search": {
+        "uriRoot":"https://www.imdb.com",
+        "searchPath":"/find/?q=*&s=nm",
+        "firstResultXpath":"//*[@class='findResult odd']/td/a"
+    },
+    "root":{
+        "xpath":"//*[@itemscope]",
+        "items":[
+            {
+                "xpath":"//img[@id='name-poster']",
+                "value":{
+                    "name":"Image",
+                    "type":"attr",
+                    "attr":"src"
+                }
+            },
+            {
+                "xpath":"//*[@itemprop='name']",
+                "value":{
+                    "name":"Name",
+                    "type":"text"
+                }
+            },
+            {
+                "xpath":"//div[@id='knownfor']/div/a[2]",
+                "repeat":true,
+                "value":{
+                    "name":"KnownFor",
+                    "type":"text"
+                }
+            }
+        ]
+    }
+}
