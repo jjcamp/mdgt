@@ -67,7 +67,7 @@ class Provider:
                 node's parsing rules.
             dataDict (dict): The dict containing all parsed information.
         '''
-        from lxml import html
+        from lxml import html, etree
 
         dataList = []
         tree = parentTree.xpath(modNode['xpath'])
@@ -80,6 +80,9 @@ class Provider:
                 val = modNode['value']
                 if val['type'] == 'text':
                     dataList.append(t.text.strip())
+                elif val['type'] == 'striptext':
+                    ts = etree.tostring(t, method="text").decode('utf-8')
+                    dataList.append(ts.strip())
                 elif val['type'] == 'attr':
                     dataList.append(t.get(val['attr']))
                 if len(dataList) == 1:
