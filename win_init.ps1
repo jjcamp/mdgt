@@ -1,13 +1,13 @@
 # Sets up a virtual environment and runs pip for all dependencies.
 
-# Dependencies
-$deps = @{
-	'lxml' = '3.5.0'
-	'requests' = '2.9.1'
-	'wheel' = '0.29.0'
-	'pip' = '8.0.3'
-	'pep8' = '1.7.0'
-    'setuptools' = '20.2.2'
+# Get dependencies from requirements.txt
+$depsFile = Get-Content "requirements.txt"
+$deps = @{}
+$depsFile | % {
+    # As of this time, all dependencies are treated as '=='
+    if ($_ -match '^(?<pkg>\w*)[\s=<>]*(?<ver>.*)$') {
+        $deps.add($matches['pkg'], $matches['ver'])
+    }
 }
 
 Write-Host 'Checking for virtual environment...'
@@ -25,8 +25,7 @@ Write-Host 'Loading virtual environment...'
 Write-Host 'Checking for dependencies...'
 $instDepsOut = pip list --disable-pip-version-check
 $instDeps = @{}
-$lxmlNeedsUpdate = $false
-$setuptoolsNeedsUpdate = $false
+$needMdgtDev = $false
 $instDepsOut | % {
 	$_ -match '(?<pkg>.*?)\s*?\((?<ver>.*?)\)' | Out-Null
 	if (($matches.containsKey('pkg')) -and ($matches.containsKey('ver'))) {
@@ -37,28 +36,29 @@ ForEach ($d in $deps.KEYS.GetEnumerator()) {
 	if (!($instDeps.containsKey($d)) -and ($instDeps[$d] -ne $deps[$d])) {
 		# If the package is lxml, do not update yet, but set a flag for later
 		if ($d -eq 'lxml') {
-			$lxmlNeedsUpdate = $true
+			Write-Host 'Installing lxml from included .whl file...'
+            $whl = 'lxml-3.5.0-cp35-none-win_amd64.whl'
+	        &python -m pip install $($whl) --disable-pip-version-check
 		}
         elseif ($d -eq 'setuptools') {
-            $setuptoolsNeedsUpdate = $true
+            Write-Host 'Installing setuptools...'
+            (Invoke-WebRequest https://bootstrap.pypa.io/ez_setup.py).Content | python -
+        }
+        elseif ($d -eq 'pip') {
+            &python -m pip install --upgrade pip
         }
 		else {
 			Write-Host "Installing dependency $($d) ($($deps[$d]))."
 			&python -m pip install $d==$($deps[$d]) --disable-pip-version-check
 		}
 	}
-	else {
-		Write-Host "Dependency $($d) ($($deps[$d])) already installed."
-	}
+    # Install mdgt in development mode if not already done
+    elseif (!$instDeps.containsKey('mdgt')) {
+        $needMdgtDev = $true
+    }
 }
-if ($lxmlNeedsUpdate) {
-	# Had to ensure wheel was installed first, now install the wheel file
-	Write-Host 'Installing lxml...'
-	$whl = 'lxml-3.5.0-cp35-none-win_amd64.whl'
-	&python -m pip install $($whl) --disable-pip-version-check
-}
-if ($setuptoolsNeedsUpdate) {
-    Write-Host 'Installing setuptools...'
-    (Invoke-WebRequest https://bootstrap.pypa.io/ez_setup.py).Content | python -
+if ($needMdgtDev) {
+    Write-Host "Installing mdgt as a development package..."
+    &python setup.py develop
 }
 Write-Host 'Initialization complete, use "deactivate" to leave the virtual environment.'
