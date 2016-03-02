@@ -1,0 +1,25 @@
+{
+    "search": {
+        "uriRoot":"https://en.wikipedia.org",
+        "searchPath":"/w/index.php?search=*"
+    },
+    "root":{
+        "xpath":"//div[@id='content']",
+        "items":[
+            {
+                "xpath":"//h1[@id='firstHeading']",
+                "value":{
+                    "name":"Title",
+                    "type":"text"
+                }
+            },
+            {
+                "xpath":"//div[@id='mw-content-text']/p[1]",
+                "value":{
+                    "name":"Synopsis",
+                    "type":"striptext"
+                }
+            }
+        ]
+    }
+}
