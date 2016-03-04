@@ -12,7 +12,8 @@ Contents:
    :maxdepth: 2
 
    readme
-   modules
+   mdgt
+   api
    contributing
    license
 
