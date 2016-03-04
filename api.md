@@ -77,7 +77,7 @@ Repeat example snippet:
     "repeat":true,
     "value":{
         "name":"List Items",
-        "value":"text"
+        "type":"text"
     }
 ]
 ```
