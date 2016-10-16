@@ -6,6 +6,7 @@ Command-line usage:
     python mdgt.py --help
 '''
 from pathlib import Path
+from pkg_resources import resource_filename
 import json
 from .provider import Provider
 from .webserve import serve as webserve
@@ -34,11 +35,24 @@ def consolePrint(dataDict):
 
 def listProvs():
     '''Outputs a list of all available providers to stdout.'''
-    p = Path('providers')
-    print("Available providers:")
-    provs = list(p.glob('*.json'))
+    print("Available providers")
+
+    # Providers in CWD/providers
+    cwd_path = Path('providers')
+    provs = list(cwd_path.glob('*.json'))
+
+    print("In CWD/providers:")
     for prov in provs:
         print("- {}".format(prov.stem))
+
+    # Providers in package root
+    pkg_path = Path(resource_filename(__name__, 'providers'))
+    provs = list(pkg_path.glob('*.json'))
+
+    print("In package root:")
+    for prov in provs:
+        print("- {}".format(prov.stem))
+
 
 # TODO: Turn this into a function, then call from __main__.py
 '''

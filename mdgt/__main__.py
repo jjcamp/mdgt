@@ -22,6 +22,8 @@ outputGroup.add_argument('-c', '--console', action='store_true',
                             help="Output console-formatted text (default).")
 outputGroup.add_argument('-j', '--json', action='store_true',
                             help="Output json.")
+outputGroup.add_argument('-pd', '--provider-dir', nargs='?', const=None,
+                            help="Directory that contains provider files.")
 outputGroup.add_argument('-w', '--webserver', nargs='?', const=8181,
                             help="Start as a web server daemon on the \
                             specified port (default 8181).")
@@ -35,8 +37,8 @@ elif args.webserver:
 elif (not args.provider) and (not args.query):
     print("Provider and query required. See --help")
 elif args.json:
-    prov = Provider(args.provider)
+    prov = Provider(args.provider, args._provider_dir)
     jsonPrint(prov.scrape(args.query))
 else:
-    prov = Provider(args.provider)
+    prov = Provider(args.provider, args.provider_dir)
     consolePrint(prov.scrape(args.query))
