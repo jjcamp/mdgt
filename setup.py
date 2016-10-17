@@ -4,6 +4,9 @@ setup(
     name="mdgt",
     version="0.1.0",
     packages=find_packages(),
+    package_data={
+        'mdgt': ["providers/*.json"]
+    },
     author="John Camp and Contributors",
     description="Microdata-Parsing Microservice",
     url="https://github.com/jjcamp/mdgt",

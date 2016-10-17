@@ -5,23 +5,63 @@ class Provider:
     within to retrieve a search query from the internet and then parse the
     microdata.
     '''
-    def __init__(self, name):
+    def __init__(self, name, provider_dir=None):
         '''Loads a provider.
         The method will search to providers directory for a file [name].json to
         load.
 
         Args:
             name (str): The name of the provider to load.
+            provider_dir (str): Directory in which to search for providers.
         '''
-        from pathlib import Path
+        # from pathlib import Path
         import json
 
         self.name = name
-        p = Path("./providers/" + name + ".json")
-        if not p.exists():
+
+        # Try to find provider file
+        p = self._find_provider(name, provider_dir)
+
+        if not p or not p.exists():
             raise RuntimeError("Provider " + name + " does not exist.")
+
         with p.open() as f:
             self.modJson = json.loads(f.read())
+
+    def _find_provider(self, name, provider_dir=None):
+        '''Tries to find a provider file in different locations.
+
+        Args:
+            name (str): The name of the provider to search for.
+
+        Returns:
+            A Path object if the provider file is found or None otherwise.
+        '''
+        from pathlib import Path
+        from pkg_resources import resource_filename
+
+        # Try user-specified directory
+        if provider_dir:
+            file_path = Path(provider_dir + "/" + name + ".json")
+
+            if file_path.exists():
+                return file_path
+
+        # Try CWD
+        file_path = Path("./providers/" + name + ".json")
+
+        if file_path.exists():
+            return file_path
+
+        # Try mdgt package
+        package_dir = resource_filename(__name__, 'providers')
+        file_path = Path(package_dir + "/" + name + ".json")
+
+        if file_path.exists():
+            return file_path
+
+        # No provider file found
+        return None
 
     def scrape(self, query):
         '''Uses the loaded provider to scrape and parse microdata.
