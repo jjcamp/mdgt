@@ -12,6 +12,7 @@ Quick Instructions
 
 Options:
 * `--console`, `-c`: Output to stdout in a readable format (default)
+* `--config`, `-f`: Path to configuration file to use
 * `--json`, `-j`: Output to stdout as json
 * `--providers`, `-p`: Output to stdout a list of available providers
 * `--provider-dir`, `-pd`: Define a different providers directory
@@ -21,6 +22,22 @@ Options:
 This starts a WSGI-compliant web server at the specified port (default `8181`).  The
 api is invoked with `http://domain:port/provider/query`, or `http://domain:port/providers`
 (for a list of available providers).
+
+Configuration file structure
+----------------------------
+
+It is possible to use an optional configuration file by using the
+`--config`/`- f` flag or placing a file called `mdgt.conf` in the current working
+directory. It can have the following values:
+
+```conf
+console = true|false
+json = true|false
+provider-dir = path/to/dir
+```
+
+Note that command-line arguments will override those present in the configuration
+file.
 
 Development instructions
 ------------------------
