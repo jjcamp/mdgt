@@ -14,6 +14,7 @@ Options:
 * `--console`, `-c`: Output to stdout in a readable format (default)
 * `--json`, `-j`: Output to stdout as json
 * `--providers`, `-p`: Output to stdout a list of available providers
+* `--provider-dir`, `-pd`: Define a different providers directory
 
 **RESTful Web Server**: `python -m mdgt -w [port(optional)]`
 

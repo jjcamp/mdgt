@@ -19,14 +19,14 @@ parser.add_argument('-p', '--providers', action='store_true',
 # These arguments affect the output and are exclusive
 outputGroup = parser.add_mutually_exclusive_group()
 outputGroup.add_argument('-c', '--console', action='store_true',
-                            help="Output console-formatted text (default).")
+                         help="Output console-formatted text (default).")
 outputGroup.add_argument('-j', '--json', action='store_true',
-                            help="Output json.")
+                         help="Output json.")
 outputGroup.add_argument('-pd', '--provider-dir', nargs='?', const=None,
-                            help="Directory that contains provider files.")
+                         help="Directory that contains provider files.")
 outputGroup.add_argument('-w', '--webserver', nargs='?', const=8181,
-                            help="Start as a web server daemon on the \
-                            specified port (default 8181).")
+                         help="Start as a web server daemon on the \
+                         specified port (default 8181).")
 args = parser.parse_args()
 
 if args.providers:
