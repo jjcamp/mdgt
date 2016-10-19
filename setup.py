@@ -16,5 +16,8 @@ setup(
     install_requires=[
         "lxml >= 3.5.0",
         "requests >= 2.9.1"
-    ]
+    ],
+    entry_points = {
+        "console_scripts": ["mdgt = mdgt.launcher:main"]
+    },
 )

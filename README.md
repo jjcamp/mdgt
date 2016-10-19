@@ -5,7 +5,7 @@ in the initial design and development phase.
 
 Quick Instructions
 ------------------
-**Command Line Output:** `python -m mdgt [options] [provider] [query]`
+**Command Line Output:** `mdgt [options] [provider] [query]`
 
 * `[provider]` The name of the provider, must be in `/providers/`
 * `[query]` The query the provider will use to obtain output
