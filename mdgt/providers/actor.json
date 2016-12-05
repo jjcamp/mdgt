@@ -23,7 +23,7 @@
                 }
             },
             {
-                "xpath":"//div[@id='knownfor']/div/a[2]",
+                "xpath":"//div[@class='knownfor-title-role']/a",
                 "repeat":true,
                 "value":{
                     "name":"KnownFor",
